@@ -1138,3 +1138,11 @@
         // Observe capability items
         document.querySelectorAll('.capability-item').forEach((item, index) => {
             item.style.opacity = '0';
+            item.style.transform = 'translateY(20px)';
+            item.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+            observer.observe(item);
+        });
+    </script>
+</body>
+</html>
+

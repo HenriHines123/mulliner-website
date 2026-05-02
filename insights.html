@@ -574,4 +574,15 @@ async function fetchLive(){
     const am=txt.replace(/```json|```/g,'').match(/\[\s\S\]*\]/);
     if(!am)throw new Error('No data returned');
     const parsed=JSON.parse(am[0]);
-    if(!Array.isArray(parsed)||parsed.length<10)throw new Error(
+    if(!Array.isArray(parsed)||parsed.length<10)throw new Error('Unexpected data shape from API');
+    renderTable(parsed);renderSpotlight(parsed);updateKPIs(parsed);setTs();
+  }catch(err){
+    console.error('Live refresh failed:',err);
+    alert('Live refresh failed: '+err.message);
+  }finally{
+    btn.disabled=false;btn.innerHTML='&#8635; Refresh live data';
+  }
+}
+</script>
+</body>
+</html>
