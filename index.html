@@ -76,6 +76,16 @@
             align-items: center;
         }
         
+        .logo img {
+            display: block;
+            height: 36px;
+            width: auto;
+        }
+
+        @media (max-width: 640px) {
+            .logo img { height: 28px; }
+        }
+
         .logo {
             font-family: 'Fraunces', serif;
             font-size: 1.8rem;
@@ -679,7 +689,7 @@
     <!-- Navigation -->
     <nav id="navbar">
         <div class="nav-container">
-            <a href="#" class="logo">Mulliner.</a>
+            <a href="#" class="logo" aria-label="Mulliner home"><img src="Mulliner-Logo.png" alt="Mulliner"></a>
             <ul class="nav-links" id="navLinks">
                 <li><a href="#services">Services</a></li>
                 <li><a href="#about">About Us</a></li>
