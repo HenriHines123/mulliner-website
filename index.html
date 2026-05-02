@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mulliner | Property Meets Purpose</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Darker+Grotesque:wght@300;400;500;600;700&family=Fraunces:wght@300&family=Oswald:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #1a1a1a;
+            --color-secondary: #2c3e50;
+            --color-accent: #032B03;
+            --color-light: #f8f6f3;
+            --color-white: #ffffff;
+            --color-gray: #6b7280;
+            --color-gray-light: #e5e7eb;
+            
+            --font-display: 'Cormorant Garamond', serif;
+            --font-body: 'Darker Grotesque', sans-serif;
+            
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 2rem;
+            --spacing-lg: 4rem;
+            --spacing-xl: 6rem;
+            --spacing-xxl: 8rem;
+            
+            --transition-smooth: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-fast: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+        
+        body {
+            font-family: var(--font-body);
+            color: var(--color-primary);
+            line-height: 1.6;
+            background: var(--color-white);
+            overflow-x: hidden;
+        }
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            transition: var(--transition-fast);
+        }
+        
+        nav.scrolled {
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Fraunces', serif;
+            font-size: 1.8rem;
+            font-weight: 300;
+            letter-spacing: -0.02em;
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+        
+        .coforma-text {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: var(--color-primary);
+            text-decoration: none;
+            letter-spacing: 0.02em;
+            position: relative;
+            transition: var(--transition-fast);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--color-accent);
+            transition: var(--transition-fast);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        
+        .mobile-menu-toggle span {
+            width: 28px;
+            height: 2px;
+            background: var(--color-primary);
+            transition: var(--transition-fast);
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            min-height: 600px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .hero-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translateX(-50%) translateY(-50%);
+            z-index: 0;
+            object-fit: cover;
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            text-align: center;
+            color: var(--color-white);
+            padding: 0 2rem;
+            animation: fadeInUp 1.2s ease-out;
+            z-index: 2;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hero-content h1 {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 300;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 1.2s ease-out 0.2s backwards;
+        }
+        
+        .hero-content p {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            opacity: 0.9;
+            animation: fadeInUp 1.2s ease-out 0.4s backwards;
+        }
+        
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            z-index: 2;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+        
+        .scroll-indicator svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--color-white);
+            opacity: 0.6;
+        }
+        
+        /* Services Grid */
+        .services {
+            padding: var(--spacing-xxl) 2rem;
+            background: var(--color-light);
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .section-subtitle {
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--color-accent);
+            margin-bottom: 1rem;
+        }
+        
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            color: var(--color-primary);
+        }
+        
+        .capabilities-list {
+            max-width: 1000px;
+            margin: var(--spacing-lg) auto 0;
+        }
+        
+        .capability-item {
+            border-bottom: 1px solid var(--color-gray-light);
+            transition: var(--transition-fast);
+        }
+        
+        .capability-item:last-child {
+            border-bottom: none;
+        }
+        
+        .capability-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2.5rem 2rem;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            background: transparent;
+            user-select: none;
+            -webkit-user-select: none;
+            width: 100%;
+            border: none;
+            text-align: left;
+        }
+        
+        .capability-header * {
+            pointer-events: none;
+        }
+        
+        .capability-header:hover {
+            background: rgba(107, 155, 127, 0.03);
+        }
+        
+        .capability-header h3 {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 400;
+            letter-spacing: -0.01em;
+            color: var(--color-primary);
+            transition: var(--transition-fast);
+        }
+        
+        .capability-header:hover h3 {
+            color: var(--color-accent);
+        }
+        
+        .capability-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-fast);
+        }
+        
+        .capability-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--color-primary);
+            transition: var(--transition-fast);
+        }
+        
+        .capability-item.active .capability-icon {
+            transform: rotate(180deg);
+        }
+        
+        .capability-item.active .capability-icon svg {
+            stroke: var(--color-accent);
+        }
+        
+        .capability-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .capability-content-inner {
+            padding: 0 2rem 3rem;
+        }
+        
+        .capability-description {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: var(--color-gray);
+            margin-bottom: 2rem;
+        }
+        
+        .capability-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .capability-feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+        
+        .capability-feature svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--color-accent);
+            flex-shrink: 0;
+            margin-top: 0.25rem;
+        }
+        
+        .capability-feature p {
+            font-size: 1.05rem;
+            color: var(--color-primary);
+            font-weight: 500;
+        }
+        
+        /* About Section */
+        .about {
+            padding: var(--spacing-xxl) 2rem;
+            background: var(--color-white);
+        }
+        
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-lg);
+            align-items: center;
+        }
+        
+        .about-text {
+            max-width: 600px;
+        }
+        
+        .about-text h2 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            margin-bottom: 2rem;
+            line-height: 1.2;
+        }
+        
+        .about-text p {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: var(--color-gray);
+            margin-bottom: 1.5rem;
+        }
+        
+        .about-image {
+            height: 500px;
+            border-radius: 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Visual Break Section */
+        .visual-break {
+            height: 60vh;
+            min-height: 400px;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .visual-break::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Contact Prompt Section */
+        .contact-prompt {
+            padding: var(--spacing-xxl) 2rem;
+            background: var(--color-light);
+        }
+        
+        .contact-prompt-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .contact-prompt-content h2 {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+            color: var(--color-primary);
+        }
+        
+        .contact-prompt-content p {
+            font-size: 1.2rem;
+            color: var(--color-gray);
+            margin-bottom: 3rem;
+            line-height: 1.8;
+        }
+        
+        .contact-prompt-details {
+            display: flex;
+            justify-content: center;
+            gap: 5rem;
+            flex-wrap: wrap;
+        }
+        
+        .contact-prompt-item {
+            text-align: center;
+        }
+        
+        .contact-prompt-item h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--color-accent);
+            margin-bottom: 0.75rem;
+        }
+        
+        .contact-prompt-item a {
+            font-size: 1.2rem;
+            color: var(--color-primary);
+            text-decoration: none;
+            transition: var(--transition-fast);
+            font-weight: 500;
+        }
+        
+        .contact-prompt-item a:hover {
+            color: var(--color-accent);
+        }
+        
+        .contact-prompt-item p {
+            font-size: 1.2rem;
+            color: var(--color-primary);
+            margin: 0;
+            font-weight: 500;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--color-primary);
+            color: var(--color-white);
+            padding: 3rem 2rem 2rem;
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 4rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .footer-brand h3 {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-brand p {
+            opacity: 0.7;
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+        
+        .footer-section h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            color: var(--color-accent);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .footer-links a {
+            color: var(--color-white);
+            text-decoration: none;
+            opacity: 0.7;
+            transition: var(--transition-fast);
+            font-size: 1.05rem;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--color-accent);
+        }
+        
+        .footer-bottom {
+            margin-top: 2rem;
+            text-align: center;
+            opacity: 0.6;
+            font-size: 0.95rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 968px) {
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background: var(--color-white);
+                flex-direction: column;
+                padding: 6rem 2rem 2rem;
+                gap: 2rem;
+                box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+                transition: var(--transition-fast);
+            }
+            
+            .nav-links.active {
+                right: 0;
+            }
+            
+            .mobile-menu-toggle {
+                display: flex;
+            }
+            
+            .mobile-menu-toggle.active span:nth-child(1) {
+                transform: rotate(45deg) translateY(10px);
+            }
+            
+            .mobile-menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .mobile-menu-toggle.active span:nth-child(3) {
+                transform: rotate(-45deg) translateY(-10px);
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-image {
+                height: 400px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .visual-break {
+                height: 50vh;
+                min-height: 300px;
+                background-attachment: scroll;
+            }
+            
+            .contact-prompt {
+                padding: var(--spacing-lg) 1rem;
+            }
+            
+            .contact-prompt-details {
+                flex-direction: column;
+                gap: 2rem;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .nav-container {
+                padding: 1rem 1.5rem;
+            }
+            
+            .logo {
+                font-size: 1.4rem;
+            }
+            
+            .hero {
+                min-height: 500px;
+            }
+            
+            .services {
+                padding: var(--spacing-lg) 1rem;
+            }
+            
+            .about {
+                padding: var(--spacing-lg) 1rem;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">Mulliner.</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#services">Services</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="insights.html">Insights</a></li>
+            </ul>
+            <button class="mobile-menu-toggle" id="mobileToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <video autoplay muted loop playsinline class="hero-video">
+            <source src="Video_Project__1_.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="hero-content">
+            <h1>Property Meets Purpose.</h1>
+        </div>
+        <div class="scroll-indicator">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
+            </svg>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-subtitle">What We Do</p>
+                <h2 class="section-title">About Us</h2>
+            </div>
+            
+            <div class="capabilities-list">
+                <!-- Property -->
+                <div class="capability-item">
+                    <div class="capability-header">
+                        <h3>Property</h3>
+                        <div class="capability-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="capability-content">
+                        <div class="capability-content-inner">
+                            <p class="capability-description">Mulliner Property is a specialist property advisory firm delivering strategic, transaction-led solutions for investors, developers, and institutions. We advise across the full investment lifecycle, from targeted commercial acquisitions through to complex transaction advisory, bid management, and portfolio restructuring. Our approach is disciplined, discreet, and outcomes-focused—combining deep market insight with rigorous financial and execution expertise to unlock value, manage risk and optimise capital deployment.</p>
+                            <div class="capability-features">
+                                <div class="capability-feature">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                    </svg>
+                                    <p>Commercial Acquisitions</p>
+                                </div>
+                                <div class="capability-feature">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                    </svg>
+                                    <p>Transaction Advisory</p>
+                                </div>
+                                <div class="capability-feature">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                    </svg>
+                                    <p>Bid Management</p>
+                                </div>
+                                <div class="capability-feature">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                    </svg>
+                                    <p>Portfolio Restructuring</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Capital -->
+                <div class="capability-item">
+                    <div class="capability-header">
+                        <h3>Capital</h3>
+                        <div class="capability-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="capability-content">
+                        <div class="capability-content-inner">
+                            <p class="capability-description">Mulliner Capital specialises in structuring, sourcing and execution of tailored capital solutions for property, development and real-asset investors. We combine strategic insight with deep market relationships to deliver efficient, well-structured debt and equity outcomes across the capital stack.</p>
+                            <div class="capability-features">
+                                <div class="capability-feature">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                    </svg>
+                                    <p>Capital Raising</p>
+                                </div>
+                                <div class="capability-feature">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                    </svg>
+                                    <p>Financial Engineering</p>
+                                </div>
+                                <div class="capability-feature">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                    </svg>
+                                    <p>Debt & Equity Advisory</p>
+                                </div>
+                                <div class="capability-feature">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                    </svg>
+                                    <p>Debt & Equity Brokerage</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COFORMA -->
+                <div class="capability-item">
+                    <div class="capability-header">
+                        <h3 class="coforma-text">COFORMA</h3>
+                        <div class="capability-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="capability-content">
+                        <div class="capability-content-inner">
+                            <h4 style="font-size: 1.1rem; font-weight: 600; color: var(--color-accent); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em;">Part of the Mulliner. Group</h4>
+                            <p class="capability-description">COFORMA is an Affordable Housing Owner and Provider which forms part of the Mulliner Group. COFORMA can also manage your Affordable housing properties with our in-house management team.</p>
+                            <div class="capability-features">
+                                <div class="capability-feature">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                    </svg>
+                                    <p>In-house Portfolio</p>
+                                </div>
+                                <div class="capability-feature">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                    </svg>
+                                    <p>Property Management</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Visual Break 1 -->
+    <section class="visual-break" style="background-image: url('shutterstock_2583412637.jpg');"></section>
+
+    <!-- Who We Are Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Who We Are</h2>
+                    <p>Mulliner is a specialist advisory group operating across property transactions, capital solutions, and affordable housing. We work with investors, developers, and institutions to deliver disciplined, outcomes-focused advice that optimises capital deployment and manages risk.</p>
+                    <p>Our integrated approach combines deep market expertise with rigorous execution capability across three specialist divisions: Property, Capital, and COFORMA.</p>
+                </div>
+                <div class="about-image" style="background-image: url('shutterstock_1790789135.jpg'); background-size: cover; background-position: center;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Visual Break 2 -->
+    <section class="visual-break" style="background-image: url('shutterstock_2482562673.jpg'); filter: brightness(0.9);"></section>
+
+    <!-- Why Work With Mulliner Section -->
+    <section class="services" style="background: var(--color-white);">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-subtitle">Our Value</p>
+                <h2 class="section-title">Why Work With Mulliner</h2>
+            </div>
+            
+            <div class="capabilities-list">
+                <!-- Property & Capital Advisory -->
+                <div class="capability-item">
+                    <div class="capability-header">
+                        <h3>Property & Capital Advisory Expertise</h3>
+                        <div class="capability-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="capability-content">
+                        <div class="capability-content-inner">
+                            <p class="capability-description">Our specialists bring deep market knowledge and proven execution capability across complex property and capital transactions.</p>
+                            <div class="capability-features">
+                                <div class="capability-feature">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                    </svg>
+                                    <p>Strategic market insight and transaction experience</p>
+                                </div>
+                                <div class="capability-feature">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                    </svg>
+                                    <p>Access to institutional and private capital networks</p>
+                                </div>
+                                <div class="capability-feature">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                    </svg>
+                                    <p>Rigorous financial analysis and risk management</p>
+                                </div>
+                                <div class="capability-feature">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                    </svg>
+                                    <p>Disciplined, outcome-focused approach to every engagement</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COFORMA Management Platform -->
+                <div class="capability-item">
+                    <div class="capability-header">
+                        <h3>COFORMA Management Platform</h3>
+                        <div class="capability-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="capability-content">
+                        <div class="capability-content-inner">
+                            <p class="capability-description">As owner-operators of affordable housing assets, we understand the sector from the inside and deliver property management services built on direct experience.</p>
+                            <div class="capability-features">
+                                <div class="capability-feature">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                    </svg>
+                                    <p>Experienced in-house property management team</p>
+                                </div>
+                                <div class="capability-feature">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                    </svg>
+                                    <p>Purpose-built systems for affordable housing compliance</p>
+                                </div>
+                                <div class="capability-feature">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                    </svg>
+                                    <p>Direct ownership and operational expertise</p>
+                                </div>
+                                <div class="capability-feature">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                    </svg>
+                                    <p>Aligned with community housing sector requirements</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Visual Break 3 -->
+    <section class="visual-break" style="background-image: url('shutterstock_2384867911.jpg');"></section>
+
+    <!-- Contact Prompt Section -->
+    <section class="contact-prompt">
+        <div class="container">
+            <div class="contact-prompt-content">
+                <h2>Ready to discuss your next project?</h2>
+                <p>Connect with our team to explore how Mulliner can support your objectives.</p>
+                <div class="contact-prompt-details">
+                    <div class="contact-prompt-item">
+                        <h4>Email</h4>
+                        <a href="/cdn-cgi/l/email-protection#8dc4e3ebe2cdc0f8e1e1e4e3e8ffa3eee2e0a3ecf8"><span class="__cf_email__" data-cfemail="561f383039161b233a3a3f3833247835393b783723">[email&#160;protected]</span></a>
+                    </div>
+                    <div class="contact-prompt-item">
+                        <h4>Location</h4>
+                        <p>Sydney 2000</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>Mulliner.</h3>
+                    <p>Mulliner Advisory Services Pty Ltd, ABN: 126 949 378 and ACN: 694 937 829</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="#services">Property</a></li>
+                        <li><a href="#services">Capital</a></li>
+                        <li><a href="#services">COFORMA</a></li>
+                        <li><a href="insights.html">Insights</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul class="footer-links">
+                        <li><a href="/cdn-cgi/l/email-protection#87cee9e1e8c7caf2ebebeee9e2f5a9e4e8eaa9e6f2"><span class="__cf_email__" data-cfemail="763f181019363b031a1a1f1813045815191b581703">[email&#160;protected]</span></a></li>
+                        <li>Sydney 2000</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 by Mulliner. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        console.log('Script loading...');
+        
+        // Mobile menu toggle
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navLinks = document.getElementById('navLinks');
+        
+        console.log('Mobile toggle:', mobileToggle);
+        console.log('Nav links:', navLinks);
+        
+        mobileToggle.addEventListener('click', () => {
+            mobileToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+        
+        // Close mobile menu when clicking a link
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+        
+        // Accordion functionality for capabilities
+        const capabilityItems = document.querySelectorAll('.capability-item');
+        
+        console.log('Found', capabilityItems.length, 'capability items');
+        
+        if (capabilityItems.length === 0) {
+            console.error('No capability items found!');
+        }
+        
+        capabilityItems.forEach((item, index) => {
+            const header = item.querySelector('.capability-header');
+            const content = item.querySelector('.capability-content');
+            const contentInner = item.querySelector('.capability-content-inner');
+            
+            console.log(`Setting up capability item ${index}`, header, content, contentInner);
+            
+            if (!header || !content || !contentInner) {
+                console.error(`Missing elements for item ${index}`);
+                return;
+            }
+            
+            header.addEventListener('click', (e) => {
+                console.log('Clicked capability item', index);
+                e.stopPropagation();
+                
+                const isActive = item.classList.contains('active');
+                
+                // Close all other items
+                capabilityItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                        otherItem.querySelector('.capability-content').style.maxHeight = '0';
+                    }
+                });
+                
+                // Toggle current item
+                if (isActive) {
+                    item.classList.remove('active');
+                    content.style.maxHeight = '0';
+                    console.log('Closing item', index);
+                } else {
+                    item.classList.add('active');
+                    const height = contentInner.scrollHeight;
+                    content.style.maxHeight = height + 'px';
+                    console.log('Opening item', index, 'height:', height);
+                }
+            });
+        });
+        
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Smooth scroll for anchor links (excluding accordion headers)
+        document.querySelectorAll('a[href^="#"]:not(.capability-header a)').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return; // Skip empty hash links
+                
+                e.preventDefault();
+                const target = document.querySelector(targetId);
+                if (target) {
+                    const navbarHeight = document.getElementById('navbar').offsetHeight;
+                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    mobileToggle.classList.remove('active');
+                    navLinks.classList.remove('active');
+                }
+            });
+        });
+        
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Observe capability items
+        document.querySelectorAll('.capability-item').forEach((item, index) => {
+            item.style.opacity = '0';
