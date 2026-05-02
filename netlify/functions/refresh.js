@@ -15,13 +15,15 @@ exports.handler = async function (event) {
     return { statusCode: 405, body: "Method Not Allowed" };
   }
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  // Anthropic API key. Stored in Netlify env vars under Mulliner_Website
+  // (legacy name from initial setup; safe to rename to ANTHROPIC_API_KEY later).
+  const apiKey = process.env.ANTHROPIC_API_KEY || process.env.Mulliner_Website;
   if (!apiKey) {
     return {
       statusCode: 500,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        error: "ANTHROPIC_API_KEY environment variable is not set. Please add it in your Netlify site settings under Environment Variables.",
+        error: "Anthropic API key env var is not set on Netlify (expected ANTHROPIC_API_KEY or Mulliner_Website).",
       }),
     };
   }
