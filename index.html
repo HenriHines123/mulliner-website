@@ -1248,16 +1248,18 @@
             let path = d3.geoPath(proj);
             let landSel = null;
 
+            // Each city has its own bias so flags drift inland for coastal cities
+            // and the Brisbane/Gold Coast labels render in different vertical slots.
             const cities = [
-                { name: 'Perth',      lat: -31.9505, lng: 115.8605 },
-                { name: 'Adelaide',   lat: -34.9285, lng: 138.6007 },
-                { name: 'Melbourne',  lat: -37.8136, lng: 144.9631 },
-                { name: 'Sydney',     lat: -33.8688, lng: 151.2093 },
-                { name: 'Gold Coast', lat: -28.0167, lng: 153.4000 },
-                { name: 'Brisbane',   lat: -27.4698, lng: 153.0251 }
+                { name: 'Perth',      lat: -31.9505, lng: 115.8605, lngBias: +0.10, latBias: 0,     labelDy:  30 },
+                { name: 'Adelaide',   lat: -34.9285, lng: 138.6007, lngBias: 0,     latBias: -0.05, labelDy:  30 },
+                { name: 'Melbourne',  lat: -37.8136, lng: 144.9631, lngBias: 0,     latBias: +0.10, labelDy:  30 },
+                { name: 'Sydney',     lat: -33.8688, lng: 151.2093, lngBias: -0.10, latBias: 0,     labelDy:  30 },
+                { name: 'Brisbane',   lat: -27.4698, lng: 153.0251, lngBias: -0.10, latBias: 0,     labelDy: -16 },
+                { name: 'Gold Coast', lat: -28.0167, lng: 153.4000, lngBias: -0.10, latBias: 0,     labelDy:  30 }
             ];
 
-            // Deterministic pseudo-random so flag positions don't jump on reload
+            // Deterministic pseudo-random so flag positions don't jump on reload.
             const rng = (s) => { const x = Math.sin(s) * 10000; return x - Math.floor(x); };
             let s = 1;
             const markers = [];
@@ -1266,8 +1268,8 @@
                 for (let i = 0; i < count; i++) {
                     markers.push({
                         city: c.name,
-                        lat: c.lat + (rng(s++) - 0.5) * 0.6,
-                        lng: c.lng + (rng(s++) - 0.5) * 0.6
+                        lat: c.lat + c.latBias + (rng(s++) - 0.5) * 0.30,
+                        lng: c.lng + c.lngBias + (rng(s++) - 0.5) * 0.30
                     });
                 }
             });
@@ -1339,7 +1341,7 @@
                     .attr('text-anchor', 'middle')
                     .attr('transform', d => {
                         const p = proj([d.lng, d.lat]) || [-100, -100];
-                        return `translate(${p[0]}, ${p[1] + 32})`;
+                        return `translate(${p[0]}, ${p[1] + d.labelDy})`;
                     })
                     .text(d => d.name)
                     .attr('opacity', 0)
