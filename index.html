@@ -276,50 +276,6 @@
             color: var(--color-primary);
         }
         
-        /* Reach Map (desktop only) */
-        .reach {
-            padding: var(--spacing-xxl) 0;
-            background: var(--color-light);
-        }
-
-        .reach-map {
-            width: 100%;
-            max-width: 960px;
-            aspect-ratio: 16 / 10;
-            margin: var(--spacing-lg) auto 0;
-            position: relative;
-        }
-
-        .reach-map svg {
-            width: 100%;
-            height: 100%;
-            display: block;
-            overflow: visible;
-        }
-
-        .reach-flag path {
-            fill: var(--color-accent);
-        }
-
-        .reach-flag line {
-            stroke: var(--color-accent);
-        }
-
-        .reach-city-label {
-            font-family: var(--font-display);
-            font-size: 18px;
-            font-weight: 500;
-            fill: var(--color-primary);
-            paint-order: stroke;
-            stroke: var(--color-light);
-            stroke-width: 4px;
-            pointer-events: none;
-        }
-
-        @media (max-width: 968px) {
-            .reach { display: none; }
-        }
-
         .capabilities-list {
             max-width: 1000px;
             margin: var(--spacing-lg) auto 0;
@@ -910,17 +866,6 @@
         </div>
     </section>
 
-    <!-- National Coverage (desktop only — see .reach in CSS) -->
-    <section class="reach" id="reach">
-        <div class="container">
-            <div class="section-header">
-                <p class="section-subtitle">National Coverage</p>
-                <h2 class="section-title">Active Across Australia</h2>
-            </div>
-            <div class="reach-map" id="reachMap"></div>
-        </div>
-    </section>
-
     <!-- Visual Break 2 -->
     <section class="visual-break" style="background-image: url('shutterstock_2482562673.jpg'); filter: brightness(0.9);"></section>
 
@@ -1079,8 +1024,6 @@
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-    <script src="https://cdn.jsdelivr.net/npm/topojson-client@3"></script>
     <script>
         console.log('Script loading...');
         
@@ -1209,145 +1152,6 @@
             item.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
             observer.observe(item);
         });
-
-        // National coverage map: orthographic globe → zoom into Australia → plant flags
-        (function reachMap() {
-            if (window.matchMedia('(max-width: 968px)').matches) return;
-            const container = document.getElementById('reachMap');
-            if (!container || typeof d3 === 'undefined' || typeof topojson === 'undefined') return;
-
-            const W = container.clientWidth || 900;
-            const H = Math.round(W * 10 / 16);
-
-            const svg = d3.select(container).append('svg')
-                .attr('viewBox', `0 0 ${W} ${H}`)
-                .attr('preserveAspectRatio', 'xMidYMid meet');
-
-            // Soft ocean background (subtle radial vignette under the globe)
-            const grad = svg.append('defs').append('radialGradient').attr('id', 'reachOcean');
-            grad.append('stop').attr('offset', '0%').attr('stop-color', '#f0ede8');
-            grad.append('stop').attr('offset', '100%').attr('stop-color', 'transparent');
-            svg.append('circle')
-                .attr('cx', W / 2).attr('cy', H / 2).attr('r', W * 0.6)
-                .attr('fill', 'url(#reachOcean)');
-
-            const mapG = svg.append('g');
-            const overlay = svg.append('g');
-
-            const startRotate = [-30, -10];   // [longitude, latitude] — initial globe view (Africa-ish)
-            const endRotate   = [-134, 33];   // Centered on midpoint of the six AU cities so all are well-framed
-            const startScale  = W * 0.42;
-            const endScale    = W * 1.08;     // Fills the frame with mainland Australia
-
-            const proj = d3.geoOrthographic()
-                .rotate(startRotate)
-                .scale(startScale)
-                .translate([W / 2, H / 2])
-                .clipAngle(90);
-
-            let path = d3.geoPath(proj);
-            let landSel = null;
-
-            // Each city has its own bias so flags drift inland for coastal cities
-            // and the Brisbane/Gold Coast labels render in different vertical slots.
-            const cities = [
-                { name: 'Perth',      lat: -31.9505, lng: 115.8605, lngBias: +0.10, latBias: 0,     labelDy:  30 },
-                { name: 'Adelaide',   lat: -34.9285, lng: 138.6007, lngBias: 0,     latBias: -0.05, labelDy:  30 },
-                { name: 'Melbourne',  lat: -37.8136, lng: 144.9631, lngBias: 0,     latBias: +0.10, labelDy:  30 },
-                { name: 'Sydney',     lat: -33.8688, lng: 151.2093, lngBias: -0.10, latBias: 0,     labelDy:  30 },
-                { name: 'Brisbane',   lat: -27.4698, lng: 153.0251, lngBias: -0.10, latBias: 0,     labelDy: -16 },
-                { name: 'Gold Coast', lat: -28.0167, lng: 153.4000, lngBias: -0.10, latBias: 0,     labelDy:  30 }
-            ];
-
-            // Deterministic pseudo-random so flag positions don't jump on reload.
-            const rng = (s) => { const x = Math.sin(s) * 10000; return x - Math.floor(x); };
-            let s = 1;
-            const markers = [];
-            cities.forEach((c) => {
-                const count = 3 + Math.floor(rng(s++) * 3); // 3–5 per city
-                for (let i = 0; i < count; i++) {
-                    markers.push({
-                        city: c.name,
-                        lat: c.lat + c.latBias + (rng(s++) - 0.5) * 0.30,
-                        lng: c.lng + c.lngBias + (rng(s++) - 0.5) * 0.30
-                    });
-                }
-            });
-
-            fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
-                .then(r => r.json())
-                .then(world => {
-                    const countries = topojson.feature(world, world.objects.countries);
-                    landSel = mapG.selectAll('path').data(countries.features).enter().append('path')
-                        .attr('d', path)
-                        .attr('fill', d => d.properties.name === 'Australia' ? '#d8d4cb' : '#e8e4dc')
-                        .attr('stroke', 'rgba(0,0,0,0.10)')
-                        .attr('stroke-width', 0.5);
-
-                    const io = new IntersectionObserver((entries) => {
-                        entries.forEach(e => {
-                            if (e.isIntersecting && !container.dataset.animated) {
-                                container.dataset.animated = '1';
-                                animate();
-                            }
-                        });
-                    }, { threshold: 0.3 });
-                    io.observe(container);
-                })
-                .catch(err => console.warn('Reach map failed to load world data:', err));
-
-            function animate() {
-                const ri = d3.interpolate(startRotate, endRotate);
-                const si = d3.interpolate(startScale, endScale);
-                const duration = 2400;
-                const timer = d3.timer((elapsed) => {
-                    const t = Math.min(elapsed / duration, 1);
-                    const e = d3.easeCubicInOut(t);
-                    proj.rotate(ri(e)).scale(si(e));
-                    path = d3.geoPath(proj);
-                    landSel.attr('d', path);
-                    if (t >= 1) {
-                        timer.stop();
-                        revealMarkers();
-                    }
-                });
-            }
-
-            function revealMarkers() {
-                const flags = overlay.selectAll('g.reach-flag').data(markers).enter().append('g')
-                    .attr('class', 'reach-flag')
-                    .attr('opacity', 0)
-                    .attr('transform', d => {
-                        const p = proj([d.lng, d.lat]) || [-100, -100];
-                        return `translate(${p[0]}, ${p[1] - 24})`;
-                    });
-
-                flags.append('line').attr('x1', 0).attr('y1', 0).attr('x2', 0).attr('y2', -14).attr('stroke-width', 1.2);
-                flags.append('path').attr('d', 'M0,-14 L9,-11 L0,-8 Z');
-                flags.append('circle').attr('cx', 0).attr('cy', 0).attr('r', 1.6).attr('fill', 'var(--color-accent)');
-
-                flags.transition()
-                    .duration(700)
-                    .delay((d, i) => i * 60)
-                    .ease(d3.easeCubicOut)
-                    .attr('opacity', 1)
-                    .attr('transform', d => {
-                        const p = proj([d.lng, d.lat]) || [-100, -100];
-                        return `translate(${p[0]}, ${p[1]})`;
-                    });
-
-                overlay.selectAll('text.reach-city-label').data(cities).enter().append('text')
-                    .attr('class', 'reach-city-label')
-                    .attr('text-anchor', 'middle')
-                    .attr('transform', d => {
-                        const p = proj([d.lng, d.lat]) || [-100, -100];
-                        return `translate(${p[0]}, ${p[1] + d.labelDy})`;
-                    })
-                    .text(d => d.name)
-                    .attr('opacity', 0)
-                    .transition().duration(600).delay(900).attr('opacity', 1);
-            }
-        })();
     </script>
 </body>
 </html>
